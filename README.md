@@ -73,7 +73,8 @@ the project's own dev container.
 ### 🚀 CAP
 
 Runs `cds init` with the CDS features you choose (TypeScript, MTA, XSUAA, HANA,
-SQLite, HTML5 repo, sample content, HTTP, tests; all selected by default) and
+SQLite, HTML5 repo, sample content, HTTP, tests; all selected by default; AMS
+and IAS are available but not selected) and
 then adds:
 
 - ESLint and Prettier, configured through [`@cbs-consulting/tools`](https://www.npmjs.com/package/@cbs-consulting/tools)
