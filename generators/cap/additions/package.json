@@ -1,16 +1,18 @@
 {
   "scripts": {
+    "start": "cds-serve",
+    "watch": "cds watch",
+    "hybrid": "cds watch --profile hybrid",
+    "ownHDI": "CDS_PLUGIN_UI5_LAZY_LOADING=true cds-tsx watch --profile ownHDI",
     "format": "prettier --write \"**/*.(ts|js|json|yml|yaml|xml)\"",
+    "coverage-report": "npx serve coverage/lcov-report",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "lint-quiet": "eslint . --quiet",
-    "test": "vitest run --coverage",
     "build": "rm -rf resources mta_archives dist gen && npx -p @sap/cds-dk cds build --production",
-    "create-ownHDI": "scripts/create-own-hdi-container.sh",
     "deploy-dev": "npm run build && mbt build --mtar archive.mtar && cf deploy mta_archives/archive.mtar -e mta-ext/dev.mtaext --strategy blue-green --skip-testing-phase --skip-idle-start --abort-on-error",
+    "create-ownHDI": "scripts/create-own-hdi-container.sh",
     "deploy-ownHDI": "cds bind --exec --profile ownHDI cds deploy --to hana -- --auto-undeploy",
-    "ownHDI": "CDS_PLUGIN_UI5_LAZY_LOADING=true cds-tsx watch --profile ownHDI",
-    "coverage-report": "npx serve coverage/lcov-report",
     "git-config": "git config --local include.path ../.gitconfig.aliases",
     "check-deps": "ncu",
     "upgrade-deps": "ncu -u"

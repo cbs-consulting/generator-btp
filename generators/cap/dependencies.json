@@ -6,11 +6,9 @@
     "@prettier/plugin-xml",
     "simple-git-hooks",
     "lint-staged",
-    "eslint@10",
+    "eslint",
     "typescript-eslint",
     "eslint-config-prettier",
-    "@sap/eslint-plugin-cds@4",
-    "@cap-js/cds-test",
     "vitest",
     "@vitest/coverage-v8",
     "npm-check-updates"

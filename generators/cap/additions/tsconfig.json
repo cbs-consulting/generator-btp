@@ -11,9 +11,5 @@
     "forceConsistentCasingInFileNames": true,
     "exactOptionalPropertyTypes": true
   },
-  "exclude": [
-    "gen",
-    "**/*.config.mjs",
-    "**/*.config.js"
-  ]
+  "exclude": ["gen", "**/*.config.mjs", "**/*.config.js"]
 }
