@@ -461,8 +461,10 @@ describe("generator-btp:cap", () => {
       expect(calls[0].args[0]).toMatch(/[/\\]scripts$/);
     }, 30000);
 
-    it("should skip chmod when no scripts folder is generated", async () => {
-      expect(await findCalls(false)).toHaveLength(0);
+    it("should chmod the generated scripts folder without Azure DevOps", async () => {
+      const calls = await findCalls(false);
+      expect(calls).toHaveLength(1);
+      expect(calls[0].args[0]).toMatch(/[/\\]scripts$/);
     }, 30000);
   });
 

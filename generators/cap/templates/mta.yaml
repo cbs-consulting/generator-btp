@@ -101,30 +101,6 @@ modules:
     build-parameters:
       no-source: true
 
-  # - name: <%= projectNameNormalized %>-ui-deployer
-  #   type: com.sap.application.content
-  #   path: .
-  #   requires:
-  #     - name: <%= projectNameNormalized %>-html-repo-host-service
-  #       parameters:
-  #         content-target: true
-  #   build-parameters:
-  #     build-result: resources
-  #     requires: 
-  #       - artifacts:
-  #           - app-placeholder.zip
-  #         name: app-placehoder
-  #         target-path: resources/
-
-  # - name: app-placeholder
-  #   type: html5
-  #   path: .
-  #   build-parameters:
-  #     build-result: dist
-  #     builder: custom
-  #     commands: []
-  #     supported-platforms: []
-
 resources:
   - name: <%= projectNameNormalized %>-db-service
     type: com.sap.xs.hdi-container

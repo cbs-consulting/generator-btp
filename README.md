@@ -61,19 +61,20 @@ the project's own dev container.
 
 ## 🧩 Generators
 
-| Generator | Command | What it does |
-| --- | --- | --- |
-| [CAP](#cap) | `yo @cbs-consulting/btp:cap` | Creates a new CAP project with everything below included |
-| [UI5](#ui5) | `yo @cbs-consulting/btp:ui5` | Adds linting and TypeScript settings to the UI5 apps of a CAP project |
-| [Dev container](#devcontainer) | `yo @cbs-consulting/btp:devcontainer` | Adds a `.devcontainer/` with the SAP BTP toolchain |
-| [Azure DevOps setup](#azure-devops) | `yo @cbs-consulting/btp:setup-azure-devops` | Adds a script that sets up branch policies and the pipeline |
+| Generator                           | Command                                     | What it does                                                          |
+| ----------------------------------- | ------------------------------------------- | --------------------------------------------------------------------- |
+| [CAP](#cap)                         | `yo @cbs-consulting/btp:cap`                | Creates a new CAP project with everything below included              |
+| [UI5](#ui5)                         | `yo @cbs-consulting/btp:ui5`                | Adds linting and TypeScript settings to the UI5 apps of a CAP project |
+| [Dev container](#devcontainer)      | `yo @cbs-consulting/btp:devcontainer`       | Adds a `.devcontainer/` with the SAP BTP toolchain                    |
+| [Azure DevOps setup](#azure-devops) | `yo @cbs-consulting/btp:setup-azure-devops` | Adds a script that sets up branch policies and the pipeline           |
 
 <a id="cap"></a>
 
 ### 🚀 CAP
 
 Runs `cds init` with the CDS features you choose (TypeScript, MTA, XSUAA, HANA,
-SQLite, HTML5 repo, sample content, HTTP, tests; all selected by default) and
+SQLite, HTML5 repo, sample content, HTTP, tests; all selected by default; AMS
+and IAS are available but not selected) and
 then adds:
 
 - ESLint and Prettier, configured through [`@cbs-consulting/tools`](https://www.npmjs.com/package/@cbs-consulting/tools)
@@ -99,16 +100,19 @@ my-cap-project/
 
 The generated project gets these npm scripts:
 
-| Script | What it does |
-| --- | --- |
-| `npm test` | Jest tests with CDS TypeScript |
-| `npm run lint` / `lint-fix` / `lint-quiet` | ESLint, with fixes, or errors only |
-| `npm run format` | Prettier |
-| `npm run build` | Production CAP build |
-| `npm run deploy-dev` | Build and blue-green deploy to the dev space |
-| `npm run coverage-report` | Serve the HTML coverage report |
-| `npm run git-config` | Install the git aliases locally |
-| `npm run check-deps` / `upgrade-deps` | Check or upgrade dependencies |
+| Script                                               | What it does                                               |
+| ---------------------------------------------------- | ---------------------------------------------------------- |
+| `npm start`                                          | Serve the CAP app (`cds-serve`)                            |
+| `npm run watch` / `hybrid`                           | `cds watch`, locally or with the `hybrid` profile          |
+| `npm test`                                           | Tests, added by the `test` feature of `cds init`           |
+| `npm run lint` / `lint-fix` / `lint-quiet`           | ESLint, with fixes, or errors only                         |
+| `npm run format`                                     | Prettier                                                   |
+| `npm run build`                                      | Production CAP build                                       |
+| `npm run deploy-dev`                                 | Build and blue-green deploy to the dev space               |
+| `npm run create-ownHDI` / `deploy-ownHDI` / `ownHDI` | Create, deploy to and watch against your own HDI container |
+| `npm run coverage-report`                            | Serve the HTML coverage report                             |
+| `npm run git-config`                                 | Install the git aliases locally                            |
+| `npm run check-deps` / `upgrade-deps`                | Check or upgrade dependencies                              |
 
 <a id="ui5"></a>
 
@@ -170,10 +174,10 @@ yo @cbs-consulting/btp --preset cbs
 BTP_GENERATOR_PRESET=./acme-preset.json yo @cbs-consulting/btp:devcontainer
 ```
 
-| Key | `default` | `cbs` |
-| --- | --- | --- |
-| `baseImage` | `mcr.microsoft.com/devcontainers/base:debian` | `cbsgroupdocker/cbs-debian:latest` (needs `docker login`) |
-| `pipelineRepository` | `Central-Pipelines/central-cap-pipeline` | same |
+| Key                  | `default`                                     | `cbs`                                                     |
+| -------------------- | --------------------------------------------- | --------------------------------------------------------- |
+| `baseImage`          | `mcr.microsoft.com/devcontainers/base:debian` | `cbsgroupdocker/cbs-debian:latest` (needs `docker login`) |
+| `pipelineRepository` | `Central-Pipelines/central-cap-pipeline`      | same                                                      |
 
 A preset can also be a JSON file. Its keys override the `default` preset, and
 an unknown key stops the run, so a typo does not go unnoticed:

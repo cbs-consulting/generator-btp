@@ -105,6 +105,8 @@ export default class extends Generator {
           { name: "typescript", value: "typescript", checked: true },
           { name: "mta", value: "mta", checked: true },
           { name: "xsuaa", value: "xsuaa", checked: true },
+          { name: "ams", value: "ams", checked: false },
+          { name: "ias", value: "ias", checked: false },
           { name: "hana", value: "hana", checked: true },
           { name: "sqlite", value: "sqlite", checked: true },
           { name: "html5-repo", value: "html5-repo", checked: true },
@@ -289,6 +291,12 @@ export default class extends Generator {
     this.log(chalk.bold("\n📦 Installing npm dependencies..."));
     const dependenciesPath = join(this._capRoot, "dependencies.json");
     const dependencies = readJsonCSafe(this, dependenciesPath, {});
+    const deps = Array.isArray(dependencies.dependencies)
+      ? dependencies.dependencies
+      : [];
+    if (deps.length > 0) {
+      this.spawnCommandSync("npm", ["install", "--save-exact"].concat(deps));
+    }
     const devDeps = Array.isArray(dependencies.devDependencies)
       ? dependencies.devDependencies
       : [];
