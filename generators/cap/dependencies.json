@@ -1,4 +1,5 @@
 {
+  "dependencies": ["@sap/cds"],
   "devDependencies": [
     "@cbs-consulting/tools",
     "prettier",
@@ -8,6 +9,7 @@
     "lint-staged",
     "eslint@10",
     "@sap/eslint-plugin-cds@4",
+    "typescript@6",
     "typescript-eslint",
     "eslint-config-prettier",
     "vitest",

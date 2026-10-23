@@ -291,6 +291,12 @@ export default class extends Generator {
     this.log(chalk.bold("\n📦 Installing npm dependencies..."));
     const dependenciesPath = join(this._capRoot, "dependencies.json");
     const dependencies = readJsonCSafe(this, dependenciesPath, {});
+    const deps = Array.isArray(dependencies.dependencies)
+      ? dependencies.dependencies
+      : [];
+    if (deps.length > 0) {
+      this.spawnCommandSync("npm", ["install", "--save-exact"].concat(deps));
+    }
     const devDeps = Array.isArray(dependencies.devDependencies)
       ? dependencies.devDependencies
       : [];
