@@ -15,6 +15,8 @@ describe("generator-btp:cap", () => {
     "typescript",
     "mta",
     "xsuaa",
+    "ams",
+    "ias",
     "hana",
     "sqlite",
     "html5-repo",

@@ -9,10 +9,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    "exactOptionalPropertyTypes": true,
-    "types": [
-      "jest"
-    ]
+    "exactOptionalPropertyTypes": true
   },
   "exclude": [
     "gen",

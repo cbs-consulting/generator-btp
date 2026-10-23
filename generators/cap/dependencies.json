@@ -10,9 +10,9 @@
     "typescript-eslint",
     "eslint-config-prettier",
     "@sap/eslint-plugin-cds@4",
-    "@types/jest",
     "@cap-js/cds-test",
-    "ts-jest",
+    "vitest",
+    "@vitest/coverage-v8",
     "npm-check-updates"
   ]
 }

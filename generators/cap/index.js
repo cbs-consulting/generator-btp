@@ -105,6 +105,8 @@ export default class extends Generator {
           { name: "typescript", value: "typescript", checked: true },
           { name: "mta", value: "mta", checked: true },
           { name: "xsuaa", value: "xsuaa", checked: true },
+          { name: "ams", value: "ams", checked: true },
+          { name: "ias", value: "ias", checked: true },
           { name: "hana", value: "hana", checked: true },
           { name: "sqlite", value: "sqlite", checked: true },
           { name: "html5-repo", value: "html5-repo", checked: true },
