@@ -10,6 +10,11 @@ release notes.
 
 ## Unreleased
 
+## 1.5.0 - 2026-10-23
+
+- Replace Jest with Vitest for testing in CAP projects
+- Add script for creating a personal HDI container
+
 ## 1.4.0 - 2026-10-20
 
 - Open source under the Apache-2.0 license, developed on
