@@ -31,7 +31,14 @@ const runResult = await helpers
     projectName: "Devcontainer Smoke Test",
     customerName: "cbs",
     dbSchema: "DC_SMOKE",
-    cdsFeatures: ["typescript", "sqlite", "hana", "xsuaa", "tiny-sample"],
+    cdsFeatures: [
+      "typescript",
+      "sqlite",
+      "hana",
+      "xsuaa",
+      "tiny-sample",
+      "test",
+    ],
     useAzureDevOps: false,
   })
   // yeoman-test defaults skipInstall to true; opt in explicitly so install()
