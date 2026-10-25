@@ -199,9 +199,11 @@ The generator is published to npm as
 following [semantic versioning](https://semver.org).
 [`CHANGELOG.md`](CHANGELOG.md) lists what changed in each release.
 
-Releases are made by the "Release" workflow in the Actions tab, which
+Releases are made by the "Release" workflow in the Actions tab. It releases
+the tip of `main`, runs in the `npm` environment, and starts only after a
+maintainer approves the run. It then
 
-1. runs the lint checks and tests on the commit to release,
+1. runs the lint checks and tests,
 2. requires a higher version in `package.json` than the latest one on npm,
 3. stages it on npm, with a provenance statement that ties the package to
    this repository and commit, and
