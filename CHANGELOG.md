@@ -19,6 +19,7 @@ release notes.
   `azure-pipelines.yaml` that lints, tests and builds the MTA archive, instead
   of referencing the internal `Central-Pipelines/central-cap-pipeline`
   repository. `--preset cbs` keeps using that shared pipeline.
+- Update yeoman-generator to 10.
 
 ## 1.5.0 - 2026-10-23
 

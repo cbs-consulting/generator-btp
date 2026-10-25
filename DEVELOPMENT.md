@@ -74,7 +74,7 @@ This guide explains how to develop and test the cbs Best Practice Generator.
 │   ├── jsonFile.js                       # JSON/JSONC merge utilities
 │   ├── naming.js                         # Project/customer name normalization
 │   ├── presets.js                        # Organisation presets (--preset / BTP_GENERATOR_PRESET)
-│   ├── spawn.js                          # spawnCommandSync wrapper with friendly errors
+│   ├── spawn.js                          # spawnSync wrapper with friendly errors
 │   ├── templates.js                      # Template tree copying with _-prefix renaming
 │   └── __tests__/
 ├── scripts/

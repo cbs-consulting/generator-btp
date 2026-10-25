@@ -11,7 +11,7 @@ import {
   readJsonCSafe,
   sortPackageJson,
 } from "../../utils/jsonFile.js";
-import { spawnCommandSyncOrThrow } from "../../utils/spawn.js";
+import { spawnSyncOrThrow } from "../../utils/spawn.js";
 import { normalizeName } from "../../utils/naming.js";
 import { presetFor, registerPresetOption } from "../../utils/presets.js";
 import {
@@ -199,7 +199,7 @@ export default class extends Generator {
     // Check if .git directory exists, if not run git init
     if (!fs.existsSync(this.destinationPath(".git"))) {
       this.log(chalk.bold("\n🔧 Initializing git repository..."));
-      spawnCommandSyncOrThrow(
+      spawnSyncOrThrow(
         this,
         "git",
         ["init"],
@@ -209,7 +209,7 @@ export default class extends Generator {
     }
 
     this.log(chalk.bold("\n🚀 Initializing CAP project..."));
-    spawnCommandSyncOrThrow(
+    spawnSyncOrThrow(
       this,
       "cds",
       ["init", "--add", answers.cdsFeatures.join(",")],
@@ -295,13 +295,13 @@ export default class extends Generator {
       ? dependencies.dependencies
       : [];
     if (deps.length > 0) {
-      this.spawnCommandSync("npm", ["install", "--save-exact"].concat(deps));
+      this.spawnSync("npm", ["install", "--save-exact"].concat(deps));
     }
     const devDeps = Array.isArray(dependencies.devDependencies)
       ? dependencies.devDependencies
       : [];
     if (devDeps.length > 0) {
-      this.spawnCommandSync(
+      this.spawnSync(
         "npm",
         ["install", "--save-dev", "--save-exact"].concat(devDeps),
       );
@@ -317,7 +317,7 @@ export default class extends Generator {
         chalk.bold("\n🔧 Setting execute permissions for shell scripts..."),
       );
 
-      this.spawnCommandSync("find", [
+      this.spawnSync("find", [
         scriptsDir,
         "-name",
         "*.sh",
@@ -333,7 +333,7 @@ export default class extends Generator {
     // hooks when dependencies were actually installed.
     if (!this.options.skipInstall) {
       this.log(chalk.bold("\n🪝  Initializing simple git hooks..."));
-      this.spawnCommandSync("npx", ["simple-git-hooks"]);
+      this.spawnSync("npx", ["simple-git-hooks"]);
     }
 
     this.log(chalk.bold.green("\n✅ CAP best practices applied."));

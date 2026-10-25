@@ -463,12 +463,20 @@ describe("generator-btp:cap", () => {
         .withPrompts(prompts)
         .withOptions({ skipInstall: true })
         .withSpawnMock((method, command, args) => {
-          spawnCalls.push({ command, args });
+          spawnCalls.push({ method, command, args });
         });
       runResult.restore();
 
       return spawnCalls.filter((call) => call.command === "find");
     };
+
+    it("should pass the args array to spawnSync, not spawnCommandSync", async () => {
+      // spawnCommandSync takes a single command string in yeoman-generator 10
+      // and ignores an args array, so `find <dir> ...` would run as bare `find`.
+      const calls = await findCalls(false);
+      expect(calls).toHaveLength(1);
+      expect(calls[0].method).toBe("spawnSync");
+    }, 30000);
 
     it("should only chmod the generated scripts folder", async () => {
       const calls = await findCalls(true);

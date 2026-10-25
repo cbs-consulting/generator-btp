@@ -1,27 +1,27 @@
 import { describe, expect, it } from "vitest";
-import { spawnCommandSyncOrThrow } from "../spawn.js";
+import { spawnSyncOrThrow } from "../spawn.js";
 
-describe("spawnCommandSyncOrThrow", () => {
+describe("spawnSyncOrThrow", () => {
   it("returns the spawn result when the command succeeds", () => {
     const result = { exitCode: 0 };
     const generator = {
-      spawnCommandSync: () => result,
+      spawnSync: () => result,
     };
 
-    expect(
-      spawnCommandSyncOrThrow(generator, "cds", ["init"], undefined, "msg"),
-    ).toBe(result);
+    expect(spawnSyncOrThrow(generator, "cds", ["init"], undefined, "msg")).toBe(
+      result,
+    );
   });
 
-  it("forwards command, args, and options to spawnCommandSync", () => {
+  it("forwards command, args, and options to spawnSync", () => {
     const calls = [];
     const generator = {
-      spawnCommandSync: (command, args, options) => {
+      spawnSync: (command, args, options) => {
         calls.push({ command, args, options });
       },
     };
 
-    spawnCommandSyncOrThrow(
+    spawnSyncOrThrow(
       generator,
       "cds",
       ["init", "--add", "typescript"],
@@ -40,13 +40,13 @@ describe("spawnCommandSyncOrThrow", () => {
 
   it("rethrows with the friendly message when the command fails", () => {
     const generator = {
-      spawnCommandSync: () => {
+      spawnSync: () => {
         throw new Error("cds: command not found");
       },
     };
 
     expect(() =>
-      spawnCommandSyncOrThrow(
+      spawnSyncOrThrow(
         generator,
         "cds",
         ["init"],
@@ -58,7 +58,7 @@ describe("spawnCommandSyncOrThrow", () => {
 
   it("includes the underlying execa shortMessage detail", () => {
     const generator = {
-      spawnCommandSync: () => {
+      spawnSync: () => {
         const error = new Error("long execa message");
         error.shortMessage = "Command failed with exit code 1";
         throw error;
@@ -66,7 +66,7 @@ describe("spawnCommandSyncOrThrow", () => {
     };
 
     expect(() =>
-      spawnCommandSyncOrThrow(generator, "cds", [], undefined, "friendly"),
+      spawnSyncOrThrow(generator, "cds", [], undefined, "friendly"),
     ).toThrow(/Command failed with exit code 1/);
   });
 });

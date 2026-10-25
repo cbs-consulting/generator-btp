@@ -124,7 +124,7 @@ export default class extends Generator {
     if (!this._detectedUi5Apps || this._detectedUi5Apps.length === 0) return;
     for (const appDir of this._detectedUi5Apps) {
       if (devDeps.length === 0) continue;
-      this.spawnCommandSync(
+      this.spawnSync(
         "npm",
         ["install", "--save-dev", "--save-exact"].concat(devDeps),
         {
