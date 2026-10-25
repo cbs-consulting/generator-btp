@@ -50,7 +50,7 @@
     "@devcontainers/cli": "0.89.0",
     "@eslint/js": "10.0.1",
     "@sap/cds-dk": "10.2.0",
-    "@yeoman/adapter": "4.0.1",
+    "@yeoman/adapter": "5.1.1",
     "eslint": "10.13.0",
     "globals": "17.13.0",
     "lint-staged": "17.6.0",
