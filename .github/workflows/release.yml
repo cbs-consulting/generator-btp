@@ -1,21 +1,20 @@
 name: Release
-# Stages a tested commit on npm and publishes it as a GitHub release. Started by hand from
-# the Actions tab. The npm version goes live only when a maintainer approves it with 2FA:
-# on npmjs.com (the package's staged versions) or with `npm stage approve <stage-id>`.
+# Stages the tip of main on npm and publishes it as a GitHub release. Started by hand from
+# the Actions tab on main. The job runs in the "npm" environment, which only allows main and
+# waits for a maintainer's approval before it starts. The npm version goes live only when a
+# maintainer approves it with 2FA: on npmjs.com (the package's staged versions) or with
+# `npm stage approve <stage-id>`.
 #
 # npm accepts the upload because this workflow is registered as the package's trusted
 # publisher on npmjs.com (package settings -> Trusted publishing: GitHub Actions,
-# organization cbs-consulting, repository generator-btp, workflow release.yml, permission
-# "stage publish"), so no npm token is stored here.
+# organization cbs-consulting, repository generator-btp, workflow release.yml, environment
+# npm, permission "stage publish"), so no npm token is stored here.
 #
 # The workflow can be run again; whatever was already done is skipped. A version that is
 # staged but not yet approved does not count as done, so approve or reject it first.
 on:
   workflow_dispatch:
     inputs:
-      ref:
-        description: Branch, tag or commit to release
-        default: main
       dry_run:
         description: Only run the checks, change nothing
         type: boolean
@@ -26,10 +25,17 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: npm
     steps:
+      # The environment also limits this to main; this check keeps it that way if the
+      # environment's branch rule is ever loosened.
+      - name: Check that the release runs from main
+        if: ${{ github.ref != 'refs/heads/main' }}
+        run: |
+          echo "::error::Releases run from main only. Start the workflow on main."
+          exit 1
       - uses: actions/checkout@v7
         with:
-          ref: ${{ inputs.ref }}
           persist-credentials: false
       - uses: actions/setup-node@v7
         with:

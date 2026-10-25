@@ -386,11 +386,13 @@ Releases are made by hand with the "Release" workflow in the Actions tab
    rename "Unreleased" to `<version> - <date>`. The tests fail while the
    version in `package.json` has no entry, so neither the pull request nor
    the release can go through without one.
-3. After merging to `main`, run the Release workflow. It runs lint and tests,
-   requires a version higher than the latest one on npm, stages it on npm
-   with a provenance statement, and publishes the GitHub release
-   `v<version>` with the changelog entry as notes. Its "dry run" option only
-   runs the checks.
+3. After merging to `main`, run the Release workflow on `main` and approve
+   the run when GitHub asks for it. The job runs in the `npm` environment,
+   which only allows `main` and needs a maintainer's approval. It releases
+   the tip of `main`, runs lint and tests, requires a version higher than
+   the latest one on npm, stages it on npm with a provenance statement, and
+   publishes the GitHub release `v<version>` with the changelog entry as
+   notes. Its "dry run" option only runs the checks.
 4. A staged version goes live, and becomes `@latest`, when a maintainer
    approves it with two-factor authentication: on npmjs.com under the
    package's staged versions, or with `npm stage approve <stage-id>`.
@@ -398,7 +400,12 @@ Releases are made by hand with the "Release" workflow in the Actions tab
 npm accepts the upload because the workflow is registered as the package's
 trusted publisher on npmjs.com (Trusted publishing: GitHub Actions,
 organization `cbs-consulting`, repository `generator-btp`, workflow
-`release.yml`, permission "stage publish"). No npm token is stored anywhere.
+`release.yml`, environment `npm`, permission "stage publish"). No npm token is
+stored anywhere. npm rejects uploads from any other workflow or environment.
+
+The `npm` environment is set up in the repository settings (Settings →
+Environments → `npm`): deployment branches limited to `main`, and the
+maintainers as required reviewers.
 
 ### Verify a published version
 
