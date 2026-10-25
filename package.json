@@ -38,7 +38,7 @@
     "CHANGELOG.md"
   ],
   "dependencies": {
-    "chalk": "5.6.2",
+    "chalk": "6.0.1",
     "comment-json": "4.5.1",
     "glob": "13.0.6",
     "lodash.mergewith": "4.6.2",
