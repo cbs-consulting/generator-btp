@@ -3,6 +3,9 @@ on:
   push:
     branches: [main]
   pull_request:
+  # The merge queue tests each pull request on top of main and the pull requests queued
+  # ahead of it, and waits for the required checks on that commit.
+  merge_group:
   workflow_dispatch:
 jobs:
   lint:
@@ -43,8 +46,8 @@ jobs:
       - run: test "${{ needs.lint.result }}" = "success" && test "${{ needs.test.result }}" = "success"
   devcontainer:
     # Scaffolds a CAP project, boots the devcontainer it generates and makes the project's
-    # first commit inside it (lint-staged + npm test). Slow, so it is not a required check;
-    # it runs on every pull request and on main so a broken image or feature still shows up.
+    # first commit inside it (lint-staged + npm test). Runs on every pull request, in the
+    # merge queue and on main, so a broken image or feature shows up before it is merged.
     name: Validate generated devcontainer
     needs: test
     runs-on: ubuntu-latest

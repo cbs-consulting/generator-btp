@@ -1,10 +1,13 @@
 name: Changelog
 # Every pull request adds a line to the "Unreleased" section of CHANGELOG.md. Pull requests
 # that change nothing a user notices (chores, CI, typos) get the label "no changelog"
-# instead. Adding or removing the label runs the check again.
+# instead. Adding or removing the label runs the check again. In the merge queue the check
+# only reports success, so it can be required: the pull request already passed it, and the
+# queue's commit has no pull request to look at.
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled]
+  merge_group:
 permissions:
   contents: read
   pull-requests: read
@@ -14,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check that CHANGELOG.md is changed
-        if: ${{ !contains(github.event.pull_request.labels.*.name, 'no changelog') }}
+        if: ${{ github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'no changelog') }}
         env:
           GH_TOKEN: ${{ github.token }}
           PR: ${{ github.event.pull_request.number }}

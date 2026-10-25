@@ -506,5 +506,11 @@ same lint and format checks on every pull request.
 4. Run `npm test` and `npm run lint` (the pre-commit hook lints and formats staged files)
 5. Open a pull request against `main`
 
+Pull requests are merged through a merge queue. Once the checks pass and the
+pull request is approved, choose **Merge when ready**: GitHub tests it on top
+of `main` and the pull requests queued ahead of it, and merges it when the
+checks pass there too. You don't have to update your branch with `main`
+first.
+
 Commit messages are free-form; describe what changed and why. The changelog,
 not the commit history, is what users read.

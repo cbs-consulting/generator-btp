@@ -20,4 +20,7 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    groups:
+      devcontainers-minor-and-patch:
+        update-types: [minor, patch]
     labels: [dependencies, no changelog]
