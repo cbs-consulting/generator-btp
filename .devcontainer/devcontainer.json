@@ -7,7 +7,7 @@
   ],
   "features": {
     "ghcr.io/devcontainers/features/node:2": {},
-    "ghcr.io/devcontainers/features/docker-in-docker:3": {
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {
       "moby": false
     },
     "ghcr.io/cbs-consulting/container-features/dev-defaults:1": {}
