@@ -43,7 +43,7 @@
     "glob": "13.0.6",
     "lodash.mergewith": "4.6.2",
     "lodash.union": "4.6.0",
-    "yeoman-generator": "7.5.1",
+    "yeoman-generator": "10.2.1",
     "yosay": "3.0.0"
   },
   "devDependencies": {
