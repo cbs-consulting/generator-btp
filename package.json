@@ -39,7 +39,7 @@
   ],
   "dependencies": {
     "chalk": "6.0.1",
-    "comment-json": "4.5.1",
+    "comment-json": "5.0.0",
     "glob": "13.0.6",
     "lodash.mergewith": "4.6.2",
     "lodash.union": "4.6.0",
