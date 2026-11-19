@@ -4,6 +4,7 @@ import yosay from "yosay";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { registerPresetOption } from "../../utils/presets.js";
+import { registerAnswersOption } from "../../utils/answers.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -12,6 +13,7 @@ export default class extends Generator {
   constructor(args, opts) {
     super(args, opts);
     registerPresetOption(this);
+    registerAnswersOption(this);
   }
 
   async prompting() {
@@ -58,14 +60,17 @@ export default class extends Generator {
           Generator: CapGenerator,
           path: resolve(__dirname, "../cap"),
         },
-        { preset: this.options.preset },
+        { preset: this.options.preset, answers: this.options.answers },
       );
     } else if (this.kind === "ui5") {
       const { default: Ui5Generator } = await import("../ui5/index.js");
-      this.composeWith({
-        Generator: Ui5Generator,
-        path: resolve(__dirname, "../ui5"),
-      });
+      this.composeWith(
+        {
+          Generator: Ui5Generator,
+          path: resolve(__dirname, "../ui5"),
+        },
+        { answers: this.options.answers },
+      );
     } else if (this.kind === "devcontainer") {
       const { default: DevcontainerGenerator } =
         await import("../devcontainer/index.js");
@@ -74,15 +79,18 @@ export default class extends Generator {
           Generator: DevcontainerGenerator,
           path: resolve(__dirname, "../devcontainer"),
         },
-        { preset: this.options.preset },
+        { preset: this.options.preset, answers: this.options.answers },
       );
     } else if (this.kind === "setup-azure-devops") {
       const { default: SetupAzureDevOpsGenerator } =
         await import("../setup-azure-devops/index.js");
-      this.composeWith({
-        Generator: SetupAzureDevOpsGenerator,
-        path: resolve(__dirname, "../setup-azure-devops"),
-      });
+      this.composeWith(
+        {
+          Generator: SetupAzureDevOpsGenerator,
+          path: resolve(__dirname, "../setup-azure-devops"),
+        },
+        { answers: this.options.answers },
+      );
     } else {
       this.log(chalk.red("Unknown selection"));
     }

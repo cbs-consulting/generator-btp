@@ -67,4 +67,34 @@ describe("generator-btp:app", () => {
       },
     );
   });
+
+  describe("with --answers", () => {
+    it("passes the answers on to the chosen generator", async () => {
+      const runResult = await helpers
+        .run(join(__dirname, "../index.js"))
+        .withOptions({
+          skipInstall: true,
+          answers: JSON.stringify({
+            kind: "setup-azure-devops",
+            projectName: "Answered Project",
+            azureRepoUrl: "https://dev.azure.com/org/proj/_git/answered",
+          }),
+        });
+
+      expect(runResult.generator.kind).toBe("setup-azure-devops");
+      runResult.assertFileContent(
+        "scripts/setup-azure-devops/azure-devops.env",
+        'REPO_NAME="answered"',
+      );
+      runResult.restore();
+    });
+
+    it("stops when a required answer is missing", async () => {
+      await expect(
+        helpers
+          .run(join(__dirname, "../index.js"))
+          .withOptions({ skipInstall: true, answers: "{}" }),
+      ).rejects.toThrow('--answers needs "kind"');
+    });
+  });
 });

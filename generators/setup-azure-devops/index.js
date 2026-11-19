@@ -11,12 +11,21 @@ import {
   parseAzureRepoUrl,
   useBestPracticesPrompt,
 } from "../../utils/azureDevOps.js";
+import {
+  registerAnswersOption,
+  warnUnusedAnswers,
+} from "../../utils/answers.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default class extends Generator {
   _tplRoot = resolve(__dirname, "./templates");
+
+  constructor(args, opts) {
+    super(args, opts);
+    registerAnswersOption(this);
+  }
 
   async initializing() {
     const aPrompt = [];
@@ -66,6 +75,7 @@ export default class extends Generator {
     }
 
     this.answers = answers;
+    warnUnusedAnswers(this);
   }
 
   writing() {
