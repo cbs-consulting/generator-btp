@@ -518,6 +518,11 @@ same lint and format checks on every pull request.
 4. Run `npm test` and `npm run lint` (the pre-commit hook lints and formats staged files)
 5. Open a pull request against `main`
 
+Pull requests need two checks: **Test features** (lint, the tests on every
+Node version and the devcontainer validation) and **Changelog entry**. They
+have the same names as in the other cbs-consulting repositories, so one branch
+ruleset fits them all.
+
 Pull requests are merged through a merge queue. Once the checks pass and the
 pull request is approved, choose **Merge when ready**: GitHub tests it on top
 of `main` and the pull requests queued ahead of it, and merges it when the

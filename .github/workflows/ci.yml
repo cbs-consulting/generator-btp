@@ -21,7 +21,7 @@ jobs:
       - run: npm run lint
       - run: npm run format:check
   test:
-    name: Test generators (Node ${{ matrix.node }})
+    name: Test features (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -34,16 +34,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-  test-summary:
-    # The single check that branch protection requires, so the rule does not have to list
-    # every Node version in the matrix. always() makes it run, and fail, when a test job
-    # fails; a skipped required check would count as passing.
-    name: Test generators
-    needs: [lint, test]
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - run: test "${{ needs.lint.result }}" = "success" && test "${{ needs.test.result }}" = "success"
   devcontainer:
     # Scaffolds a CAP project, boots the devcontainer it generates and makes the project's
     # first commit inside it (lint-staged + npm test). Runs on every pull request, in the
@@ -59,3 +49,25 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:devcontainer
+  test-features:
+    # The single check that branch protection requires, named like the one in the other
+    # cbs-consulting repositories, so one ruleset fits them all. It covers every job above,
+    # so the rule does not have to list each job or Node version. always() makes it run,
+    # and fail, when a job fails or is cancelled; a skipped required check would count as
+    # passing.
+    name: Test features
+    needs: [lint, test, devcontainer]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the results of all jobs
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Results: $RESULTS"
+          for result in $RESULTS; do
+            if [ "$result" != "success" ]; then
+              echo "::error::A required job did not succeed."
+              exit 1
+            fi
+          done
