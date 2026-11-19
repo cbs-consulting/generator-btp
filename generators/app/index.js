@@ -55,7 +55,7 @@ export default class extends Generator {
   async writing() {
     if (this.kind === "cap") {
       const { default: CapGenerator } = await import("../cap/index.js");
-      this.composeWith(
+      await this.composeWith(
         {
           Generator: CapGenerator,
           path: resolve(__dirname, "../cap"),
@@ -64,7 +64,7 @@ export default class extends Generator {
       );
     } else if (this.kind === "ui5") {
       const { default: Ui5Generator } = await import("../ui5/index.js");
-      this.composeWith(
+      await this.composeWith(
         {
           Generator: Ui5Generator,
           path: resolve(__dirname, "../ui5"),
@@ -74,7 +74,7 @@ export default class extends Generator {
     } else if (this.kind === "devcontainer") {
       const { default: DevcontainerGenerator } =
         await import("../devcontainer/index.js");
-      this.composeWith(
+      await this.composeWith(
         {
           Generator: DevcontainerGenerator,
           path: resolve(__dirname, "../devcontainer"),
@@ -84,7 +84,7 @@ export default class extends Generator {
     } else if (this.kind === "setup-azure-devops") {
       const { default: SetupAzureDevOpsGenerator } =
         await import("../setup-azure-devops/index.js");
-      this.composeWith(
+      await this.composeWith(
         {
           Generator: SetupAzureDevOpsGenerator,
           path: resolve(__dirname, "../setup-azure-devops"),
