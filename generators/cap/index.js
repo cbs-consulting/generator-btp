@@ -22,6 +22,10 @@ import {
   useBestPracticesPrompt,
 } from "../../utils/azureDevOps.js";
 import { copyTemplateTree } from "../../utils/templates.js";
+import {
+  registerAnswersOption,
+  warnUnusedAnswers,
+} from "../../utils/answers.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -34,6 +38,7 @@ export default class extends Generator {
   constructor(args, opts) {
     super(args, opts);
     registerPresetOption(this);
+    registerAnswersOption(this);
   }
 
   async initializing() {
@@ -195,6 +200,8 @@ export default class extends Generator {
         );
       }
     }
+
+    warnUnusedAnswers(this);
 
     // Check if .git directory exists, if not run git init
     if (!fs.existsSync(this.destinationPath(".git"))) {

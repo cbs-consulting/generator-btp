@@ -10,6 +10,14 @@ release notes.
 
 ## Unreleased
 
+- `--answers <file.json|JSON>` answers the prompts without asking, for CI and
+  coding agents. Missing answers take their defaults, and a wrong answer stops
+  the run with the key's name.
+- Agent skill `generator-btp`, installable from the cbs agentic marketplace,
+  that sets up a project with the generator: it asks what the project needs,
+  runs the generator with `--answers` and goes through the next steps.
+- `yo @cbs-consulting/btp` waits for the generator you choose in the menu.
+  Before, the run could end before that generator had written its files.
 - Add contributing guide, code of conduct, security policy, issue and pull
   request templates, and Dependabot updates for npm, GitHub Actions and the
   dev container.

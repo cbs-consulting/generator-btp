@@ -1,0 +1,12 @@
+{
+  "name": "generator-btp",
+  "description": "Sets up SAP CAP projects with @cbs-consulting/generator-btp: asks what the project needs, runs the generator without interactive prompts, and walks through the next steps.",
+  "author": {
+    "name": "cbs Corporate Business Solutions Unternehmensberatung GmbH",
+    "email": "cp_opensource@cbs-consulting.de"
+  },
+  "homepage": "https://github.com/cbs-consulting/generator-btp#readme",
+  "repository": "https://github.com/cbs-consulting/generator-btp",
+  "license": "Apache-2.0",
+  "keywords": ["sap", "btp", "cap", "ui5", "yeoman", "devcontainer", "azure-devops"]
+}
