@@ -190,6 +190,51 @@ an unknown key stops the run, so a typo does not go unnoticed:
 }
 ```
 
+<a id="answers"></a>
+
+## 🤖 Non-interactive runs
+
+`--answers` answers the prompts from a JSON file, or a JSON string, instead of
+asking. That is how CI and coding agents run the generator. A prompt without
+an answer takes its default, a wrong answer stops the run with the key's name,
+and a key that no prompt used is reported. Add `--force` to overwrite existing
+files without asking; the CAP generator always rewrites the `package.json`
+that `cds init` creates.
+
+```sh
+yo @cbs-consulting/btp:cap --force --answers '{
+  "projectName": "Bookshop",
+  "customerName": "Acme",
+  "useAzureDevOps": true,
+  "azureRepoUrl": "https://dev.azure.com/acme/bookshop/_git/bookshop"
+}'
+```
+
+The keys are the prompt names. [`skills/generator-btp/references/answers.md`](skills/generator-btp/references/answers.md)
+lists them per generator, with their defaults. Private npm feeds for the dev
+container go in `npmFeeds`, a list of `{ "scope", "organization", "project",
+"feed" }` objects.
+
+<a id="agent-skill"></a>
+
+## 🧠 Agent skill
+
+The repository is also an agent plugin with the skill
+[`generator-btp`](skills/generator-btp/SKILL.md). It lets a coding agent set
+up a project with you: it asks only the questions that apply, runs the
+generator with `--answers`, and goes through the next steps. Install it from
+the [cbs agentic marketplace](https://github.com/cbs-consulting/agentic-marketplace):
+
+```text
+/plugin marketplace add cbs-consulting/agentic-marketplace
+/plugin install generator-btp@cbs-consulting
+```
+
+That is Claude Code; the marketplace's README has the steps for Codex, GitHub
+Copilot CLI and other agents. Without a marketplace,
+`npx skills add cbs-consulting/generator-btp` copies the skill into your
+agent's skills folder.
+
 <a id="releases"></a>
 
 ## 📌 Releases

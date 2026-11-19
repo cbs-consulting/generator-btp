@@ -267,6 +267,91 @@ describe("generator-btp:devcontainer", () => {
   // The interactive multi-feed loop cannot be driven through withPrompts (a
   // repeated prompt name always returns the same answer), so the feed-string
   // building blocks are unit-tested directly instead.
+  describe("with --answers", () => {
+    let runResult;
+
+    beforeAll(async () => {
+      runResult = await helpers
+        .run(join(__dirname, "../index.js"))
+        .withOptions({
+          skipInstall: true,
+          answers: JSON.stringify({
+            projectName: "Answered Project",
+            npmFeeds: [
+              {
+                scope: "@one",
+                organization: "org-one",
+                project: "p1",
+                feed: "f1",
+              },
+              {
+                scope: "@two",
+                organization: "orgtwo",
+                project: "p2",
+                feed: "f2",
+              },
+            ],
+          }),
+        });
+    });
+
+    afterAll(() => {
+      if (runResult) {
+        runResult.restore();
+      }
+    });
+
+    it("answers the prompts without asking, with defaults for the rest", () => {
+      assertDevcontainerTemplating(
+        "My Customer",
+        "Answered Project",
+        "my-customer",
+        "answered-project",
+      );
+    });
+
+    it("adds every feed from npmFeeds", () => {
+      const devcontainer = readJsonC(".devcontainer/devcontainer.json");
+      const { feeds } =
+        devcontainer.features[
+          "ghcr.io/cbs-consulting/container-features/npm-feeds:1"
+        ];
+      expect(feeds).toBe(
+        [
+          buildFeedEntry({
+            scope: "@one",
+            organization: "org-one",
+            project: "p1",
+            feed: "f1",
+          }),
+          buildFeedEntry({
+            scope: "@two",
+            organization: "orgtwo",
+            project: "p2",
+            feed: "f2",
+          }),
+        ].join(";"),
+      );
+    });
+  });
+
+  describe("with an invalid feed in --answers", () => {
+    it("names the feed and the key that is wrong", async () => {
+      await expect(
+        helpers.run(join(__dirname, "../index.js")).withOptions({
+          skipInstall: true,
+          answers: JSON.stringify({
+            npmFeeds: [
+              { scope: "myorg", organization: "o", project: "p", feed: "f" },
+            ],
+          }),
+        }),
+      ).rejects.toThrow(
+        '--answers "npmFeeds[0]": "scope" is not valid: Scope must start with @',
+      );
+    });
+  });
+
   describe("npm feed string builders", () => {
     it("derives a PAT env var name from a simple organization", () => {
       expect(deriveTokenVar("myorg")).toBe("PAT_MYORG");

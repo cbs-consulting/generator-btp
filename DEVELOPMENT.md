@@ -69,7 +69,11 @@ This guide explains how to develop and test the cbs Best Practice Generator.
 │       │           └── README.md
 │       └── __tests__/
 │           └── index.test.js
+├── skills/generator-btp/              # Agent skill (SKILL.md + answer key reference)
+├── plugin.json                           # Agent plugin manifest (Agent Plugins 1.0)
+├── .claude-plugin/plugin.json            # Claude Code plugin manifest
 ├── utils/
+│   ├── answers.js                        # --answers: answer prompts from JSON instead of asking
 │   ├── azureDevOps.js                    # Shared Azure DevOps prompts and repo URL parsing
 │   ├── jsonFile.js                       # JSON/JSONC merge utilities
 │   ├── naming.js                         # Project/customer name normalization
@@ -234,6 +238,14 @@ In the generator's `index.js`:
 2. **Process templates** in the `writing()` method
 3. **Install dependencies** in the `install()` method (reads from dependencies.json)
 4. **Post-generation tasks** in the `end()` method
+
+A generator that prompts calls `registerAnswersOption(this)` in its
+constructor and `warnUnusedAnswers(this)` after its last prompt, so that
+`--answers` works for it. New prompts work with `--answers` automatically as
+long as they go through `this.prompt()`, have a `name`, and validate their
+input. Add a new prompt to
+[`skills/generator-btp/references/answers.md`](skills/generator-btp/references/answers.md),
+so the agent skill knows about it.
 
 ### 5. Write tests
 
@@ -505,6 +517,11 @@ same lint and format checks on every pull request.
 3. Add a line under "Unreleased" in [CHANGELOG.md](CHANGELOG.md), and update the README if the behaviour changes
 4. Run `npm test` and `npm run lint` (the pre-commit hook lints and formats staged files)
 5. Open a pull request against `main`
+
+Pull requests need two checks: **Test features** (lint, the tests on every
+Node version and the devcontainer validation) and **Changelog entry**. They
+have the same names as in the other cbs-consulting repositories, so one branch
+ruleset fits them all.
 
 Pull requests are merged through a merge queue. Once the checks pass and the
 pull request is approved, choose **Merge when ready**: GitHub tests it on top
