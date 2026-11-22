@@ -43,7 +43,7 @@
     "glob": "14.0.6",
     "lodash.mergewith": "4.6.2",
     "lodash.union": "4.6.0",
-    "yeoman-generator": "10.3.0",
+    "yeoman-generator": "10.3.1",
     "yosay": "3.0.0"
   },
   "devDependencies": {
@@ -51,14 +51,14 @@
     "@eslint/js": "10.0.1",
     "@inquirer/core": "12.1.0",
     "@sap/cds-dk": "10.2.1",
-    "@yeoman/adapter": "5.1.1",
+    "@yeoman/adapter": "5.2.0",
     "eslint": "10.15.0",
     "globals": "17.14.0",
     "lint-staged": "17.6.1",
     "prettier": "3.10.1",
-    "vitest": "5.1.0",
+    "vitest": "5.1.1",
     "yeoman-assert": "3.1.1",
-    "yeoman-environment": "8.5.1",
+    "yeoman-environment": "8.7.0",
     "yeoman-test": "11.8.2"
   },
   "lint-staged": {
