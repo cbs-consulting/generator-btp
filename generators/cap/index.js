@@ -201,6 +201,20 @@ export default class extends Generator {
       }
     }
 
+    // The tests that `cds add test` writes need a database. Without sqlite they
+    // start the server but fail every request with "No database connection".
+    if (
+      answers.cdsFeatures.includes("test") &&
+      !answers.cdsFeatures.includes("sqlite")
+    ) {
+      answers.cdsFeatures.push("sqlite");
+      this.log(
+        chalk.yellow(
+          "Adding the sqlite feature as well: the tests from the test feature need a database to run.",
+        ),
+      );
+    }
+
     warnUnusedAnswers(this);
 
     // Check if .git directory exists, if not run git init
@@ -301,16 +315,28 @@ export default class extends Generator {
     const deps = Array.isArray(dependencies.dependencies)
       ? dependencies.dependencies
       : [];
+    const installFailed = `npm install failed in ${this.destinationPath()}. Fix the error below, run the failed npm install command there again (a plain \`npm install\` leaves out the linting and test tools), then run \`npx simple-git-hooks\`.`;
     if (deps.length > 0) {
-      this.spawnSync("npm", ["install", "--save-exact"].concat(deps));
+      spawnSyncOrThrow(
+        this,
+        "npm",
+        ["install", "--save-exact"].concat(deps),
+        undefined,
+        installFailed,
+      );
     }
+    // typescript stays pinned in dependencies.json: `cds add typescript` asks for
+    // the latest major, which typescript-eslint may not support yet (ERESOLVE).
     const devDeps = Array.isArray(dependencies.devDependencies)
       ? dependencies.devDependencies
       : [];
     if (devDeps.length > 0) {
-      this.spawnSync(
+      spawnSyncOrThrow(
+        this,
         "npm",
         ["install", "--save-dev", "--save-exact"].concat(devDeps),
+        undefined,
+        installFailed,
       );
     }
   }
