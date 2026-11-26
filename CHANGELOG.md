@@ -10,6 +10,16 @@ release notes.
 
 ## Unreleased
 
+- The CAP generator adds the `sqlite` feature when `test` is selected without
+  it, so the generated tests have a database instead of failing with "No
+  database connection".
+- When `npm install` fails, the CAP generator says how to finish the setup by
+  hand. A plain `npm install` would leave out the linting and test tools.
+- The menu of `yo @cbs-consulting/btp` uses the `select` prompt, so inquirer no
+  longer warns that the `list` prompt is deprecated.
+- The README says that `@cbs-consulting/tools` and the other tools are
+  installed into the project, not globally.
+
 - `--answers <file.json|JSON>` answers the prompts without asking, for CI and
   coding agents. Missing answers take their defaults, and a wrong answer stops
   the run with the key's name.

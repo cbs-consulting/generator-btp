@@ -440,6 +440,84 @@ describe("generator-btp:cap", () => {
     });
   });
 
+  describe("npm install", () => {
+    const runWithInstall = async (cdsFeatures, failNpm = false) => {
+      const spawnCalls = [];
+      const runResult = await helpers
+        .run(join(__dirname, "../index.js"))
+        .withPrompts({
+          projectName: "Install Project",
+          customerName: "Test Customer",
+          dbSchema: "INSTALL_PROJECT",
+          cdsFeatures,
+          useAzureDevOps: false,
+        })
+        .withOptions({ skipInstall: false })
+        .withSpawnMock((method, command, args) => {
+          spawnCalls.push({ command, args });
+          if (failNpm && command === "npm") {
+            throw new Error("Command failed with exit code 1: npm install");
+          }
+        });
+      return { runResult, spawnCalls };
+    };
+
+    it("should pin typescript to a major that typescript-eslint supports", async () => {
+      // `cds add typescript` writes the latest typescript major into package.json.
+      // typescript-eslint lags behind new majors, so an unpinned typescript
+      // fails the install with ERESOLVE.
+      const { runResult, spawnCalls } = await runWithInstall(["typescript"]);
+      runResult.restore();
+      const devInstall = spawnCalls.find(
+        (call) => call.command === "npm" && call.args.includes("--save-dev"),
+      );
+      expect(devInstall.args).toContain("typescript-eslint");
+      expect(devInstall.args).toContain("vitest");
+      expect(
+        devInstall.args.filter((arg) => /^typescript@\d/.test(arg)),
+      ).toHaveLength(1);
+    }, 30000);
+
+    it("should explain how to recover when npm install fails", async () => {
+      await expect(runWithInstall(["typescript"], true)).rejects.toThrow(
+        /run the failed npm install command there again/,
+      );
+    }, 30000);
+  });
+
+  describe("test feature without sqlite", () => {
+    it("should add sqlite so the generated tests have a database", async () => {
+      const spawnCalls = [];
+      const runResult = await helpers
+        .run(join(__dirname, "../index.js"))
+        .withPrompts({
+          projectName: "No Db Project",
+          customerName: "Test Customer",
+          dbSchema: "NO_DB_PROJECT",
+          cdsFeatures: ["typescript", "tiny-sample", "test"],
+          useAzureDevOps: false,
+        })
+        .withOptions({ skipInstall: true })
+        .withSpawnMock((method, command, args) => {
+          spawnCalls.push({ command, args });
+        });
+      runResult.restore();
+
+      expect(runResult.generator.answers.cdsFeatures).toEqual([
+        "typescript",
+        "tiny-sample",
+        "test",
+        "sqlite",
+      ]);
+      const cdsInit = spawnCalls.find((call) => call.command === "cds");
+      expect(cdsInit.args).toEqual([
+        "init",
+        "--add",
+        "typescript,tiny-sample,test,sqlite",
+      ]);
+    }, 30000);
+  });
+
   describe("shell script permissions", () => {
     const findCalls = async (useAzureDevOps) => {
       const spawnCalls = [];

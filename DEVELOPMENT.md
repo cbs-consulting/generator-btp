@@ -28,7 +28,7 @@ This guide explains how to develop and test the cbs Best Practice Generator.
 │   │   │   ├── _.npmrc
 │   │   │   ├── eslint.config.mjs
 │   │   │   ├── prettier.config.mjs
-│   │   │   ├── jest.config.json
+│   │   │   ├── vitest.config.ts
 │   │   │   ├── mta.yaml
 │   │   │   ├── azure-pipelines.yaml
 │   │   │   ├── mta-ext/
@@ -147,7 +147,7 @@ This scaffolds a sample CAP project into a temp dir, boots its `.devcontainer/`
 with the [`@devcontainers/cli`](https://github.com/devcontainers/cli), and inside
 the container runs `npm install` → `cds-typer` → `git commit`. The commit fires
 `simple-git-hooks`' pre-commit (`npx lint-staged && npm test`), so prettier,
-eslint and the ts-jest/`cds.test` suite all execute against the real image and
+eslint and the Vitest/`cds.test` suite all execute against the real image and
 features. A clean commit (exit 0) means the generated configs work in the
 container.
 

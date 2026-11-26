@@ -24,6 +24,9 @@ one at a time.
 
 Needs Node.js 22.22.1 or newer. The CAP generator also needs
 [`@sap/cds-dk`](https://www.npmjs.com/package/@sap/cds-dk) installed globally.
+Everything else, such as `@cbs-consulting/tools`, ESLint, Prettier and Vitest,
+is installed into the generated project as devDependencies, so it does not
+have to be installed globally.
 
 ## 🚀 Quick start
 
