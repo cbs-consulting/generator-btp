@@ -25,7 +25,7 @@ export default class extends Generator {
 
     const { kind } = await this.prompt([
       {
-        type: "list",
+        type: "select",
         name: "kind",
         message: "What do you want to do?",
         choices: [
