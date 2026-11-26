@@ -8,8 +8,9 @@ version and the date. The tests fail while the version in `package.json` has
 no entry here, and the Release workflow publishes the entry as the GitHub
 release notes.
 
-## Unreleased
+## 1.6.0 - 2026-11-26
 
+- Includes the changes of 1.5.0, which was not published to npm.
 - The CAP generator adds the `sqlite` feature when `test` is selected without
   it, so the generated tests have a database instead of failing with "No
   database connection".
@@ -19,7 +20,6 @@ release notes.
   longer warns that the `list` prompt is deprecated.
 - The README says that `@cbs-consulting/tools` and the other tools are
   installed into the project, not globally.
-
 - `--answers <file.json|JSON>` answers the prompts without asking, for CI and
   coding agents. Missing answers take their defaults, and a wrong answer stops
   the run with the key's name.
